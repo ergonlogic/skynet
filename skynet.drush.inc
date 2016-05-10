@@ -47,7 +47,9 @@ function _drush_skynet_create_config() {
     'user' => $site_context['db_user'], 
     'passwd' => $site_context['db_passwd'],     
   );
-  skynet_template($template_path, $dest_path, $variables, TRUE);
+  $mode = 0600;
+  $overwrite = TRUE;
+  skynet_template($template_path, $dest_path, $variables, $mode, $overwrite);
 }
 
 /**

@@ -9,13 +9,14 @@
 /**
  * Write a file based on a template.
  */
-function skynet_template($template_path, $dest_path, $variables = array(), $overwrite = FALSE) {
+function skynet_template($template_path, $dest_path, $variables = array(), $mode = 0600, $overwrite = FALSE) {
   $contents = _skynet_render_template(_skynet_load_template($template_path), $variables);
   if (!is_dir(dirname($dest_path))) {
     drush_mkdir(dirname($dest_path));
   }
   if ($overwrite || !file_exists($dest_path)) {
     file_put_contents($dest_path, $contents);
+    chmod($dest_path, $mode);
     return TRUE;
   }
   drush_set_error('SKYNET_FILE_EXISTS', 'The specified destination file already exists.');
