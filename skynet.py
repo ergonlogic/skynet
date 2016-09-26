@@ -50,7 +50,6 @@ class SkynetBaseController(controller.CementBaseController):
                 self.app.log.info("Section '%s'" % slug)
 
         from time import sleep
-        #self.app.daemonize()
 
         while True:
             db = MySQLdb.connect(host = app.config.get('database','host'),
@@ -63,7 +62,6 @@ class SkynetBaseController(controller.CementBaseController):
                      INNER JOIN node n\
                              ON t.vid = n.vid\
                           WHERE t.task_status = %s\
-                       GROUP BY t.rid\
                        ORDER BY n.changed, n.nid ASC" % 0)
             for row in cur.fetchall() :
                 import subprocess
@@ -80,7 +78,7 @@ class Skynet(foundation.CementApp):
         meta_override=['database']
 
 # create the app
-app = Skynet(extensions=['daemon'])
+app = Skynet()
 
 # Register our signal handling hook
 hook.register('signal', skynet_signal_handler)
